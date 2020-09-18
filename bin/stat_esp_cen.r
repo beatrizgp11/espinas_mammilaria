@@ -47,16 +47,18 @@ df_esp_cen <- separate(df_esp_cen, id, c("Localidad", "Planta", "Areola"), sep =
 
 head(df_esp_cen)
 
+##se asigna al objeto "stats" el agrupamiento de las columnas correspondientes a la media y a la desviación estándar de la longitud de las espinas
 stats <- df_esp_cen %>%
   dplyr::group_by(Localidad, posicion) %>%
   summarise(media = mean(long_esp), sd = sd(long_esp))
 
-
+##se aplica un estilo a la tabla tipo markdown para una fácil transcripción a github
 pander(stats, style = 'rmarkdown')
 
+##da formato a la tabla de los estadísticos obtenidos anteriormente
 formattable(stats)
 
-
+##se agrega al objeto "hist" el histograma de las longitudes de las espinas centrales de la localidad CC020
 hist <- df_esp_cen %>%  
   filter(Localidad == "CC020") %>%
   ggplot(aes(long_esp)) +
@@ -65,6 +67,7 @@ hist <- df_esp_cen %>%
   labs(x = "Longitud de espina central (mm)", y = "Densidad")
 
 
+##se agrega al objeto "qq" 
   qq <- df_esp_cen %>%
     filter(Localidad == "CC020") %>%
     ggplot(aes(sample = long_esp)) +
@@ -74,18 +77,19 @@ hist <- df_esp_cen %>%
     facet_grid(posicion~.) +
     labs(x = "Quantiles teoricos", y = "Quantiles muestra")
 
-  
+  ##se agrega al objeto "bp" el boxplot de las longitudes de las espinas centrales de la localidad CC020
   bp <- df_esp_cen %>%
     filter(Localidad == "CC020") %>%
     ggplot(aes(x = posicion, y = long_esp)) +
     geom_boxplot() +
     labs(x = "Posicion", y = "Longiotud de espina central (mm)")
   
-  
+  ##se fusionan gráficos en una sola figura 
   figura <- ggarrange(hist, qq, bp, labels = c("A", "B", "C"))
 
+  ##se agrega el título de la figura, tipo y tamaño de letra.
  figura_f <- annotate_figure(figura, top = text_grob("Espinas centrales localidad CC021", face = "bold", size = 14),
                   fig.lab = "Figura 1", fig.lab.size = 14, fig.lab.face = "bold")
  
- 
+ ##se guarda la figura 
  ggsave(figura_f, file="../out/est_descriptiva/Loc_CC020.png", device="png", dpi = 300, width = 14, height = 12)
