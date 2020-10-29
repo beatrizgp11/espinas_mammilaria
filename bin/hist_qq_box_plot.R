@@ -4,7 +4,7 @@ library(tidyverse)
 ## level = el nivel que deseamos graficar de la variable cualitativa
 ## var_num = variable numerica que se va a graficar
 
-hist_qq_box_plot <- function(df_datos, var_cuali, level, var_num){
+hist_qq_box_plot <- function(df_datos, var_cuali, level, var_num, out_path){
   
   hist_df <- df_datos %>%  
     filter({{ var_cuali }} == level) %>%
@@ -39,7 +39,7 @@ hist_qq_box_plot <- function(df_datos, var_cuali, level, var_num){
                                fig.lab.size = 14, fig.lab.face = "bold")
   
   ##se guarda la figura 
-  ggsave(figura_f, file=paste0("../out/est_descriptiva/centrales/hist_qq_box_plot_", level,".png"), device="png", dpi = 300, width = 14, height = 12)
+  ggsave(figura_f, file=paste0(out_path, "hist_qq_box_plot_", level,".png"), device="png", dpi = 300, width = 14, height = 12)
   
 }
   

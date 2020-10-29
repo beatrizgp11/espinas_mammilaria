@@ -37,7 +37,7 @@ coords_final$long_esp <- sqrt((coords_final$X_2 - coords_final$X_1)^2 +
 coords_final$dist_are <- sqrt((coords_final$X_1 - 0)^2 +
                                 (coords_final$Y_1 - 0)^2)
 
-## posici[on de la espina
+## posicion de la espina central
 coords_final$posicion <- ifelse((coords_final$Num_esp == 1), "sup", "inf")
 
 return(coords_final)
